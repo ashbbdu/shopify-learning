@@ -1,0 +1,52 @@
+{% comment %} I am an example 404.
+
+{{ 'general.404.title' | t }}
+{{ 'general.404.subtext_html' | t }} {% endcomment %}
+{% comment %} 
+<h1>{{ section.settings.title }}</h1>
+<p>{{ section.settings.subtext_title }}</p> {% endcomment %}
+
+
+<div class="max-w-3xl mx-auto p-6 bg-white shadow rounded">
+    <h1 class="text-4xl font-bold text-gray-800 mb-4">
+      {{ section.settings.title }}
+    </h1>
+    <p class="text-lg text-gray-600">
+      {{ section.settings.subtext_title }}
+    </p>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+       <a href={{ section.settings.button_url }}>{{ section.settings.button_label }}</a>
+    </button>
+  </div>
+
+
+{% schema %}
+{
+    "name": "Template 404",
+    "settings": [
+            {
+                "type": "text",
+                "id": "title",
+                "default" :  "404",
+                "label": "Enter the 404 title"
+            },
+            {
+                "type": "text",
+                "id": "subtext_title",
+                "label": "404 subtext label",
+                "default" : "The page you are looking for is not found !"
+             },
+             {
+                "type": "text",
+                "id": "button_label",
+                "default" : "Go back to homepage",
+                "label": "Enter button text"
+             },
+             {
+                "type": "url",
+                "id": "button_url",
+                "label": "Enter Button URL"
+             }
+        ]
+}
+{% endschema %}

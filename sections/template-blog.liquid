@@ -1,0 +1,41 @@
+{% paginate blog.articles by section.settings.per_page %}
+    {% for article in blog.articles %}
+        <div>
+            <a href="{{ article.url }}">
+            {% if article.image %}
+                <img src="{{ article.image | img_url: 'medium' }}" alt="{{ article.image.alt }}">
+            {% else %}
+                {{ 'image' | placeholder_svg_tag: 'w-20' }}
+            {% endif %}
+            <h1>{{ article.title }}</h1>
+
+            {% if article.excerpt.size > 0 %}
+            {% else %}
+                <p>{{ article.content | strip_html | truncatewords: 15}}</p>
+            {% endif %}
+            </a>
+        </div>
+    {% endfor %}
+{% endpaginate %}
+
+{% schema %}
+{
+    "name": "Blog Listing",
+    "settings": [
+            {
+                "type": "range",
+                "id": "per_page",
+                "min" : 1,
+                "max" : 8,
+                "label" : "Set blogs perpage",
+                "default" :1,
+                // "step": 1
+            }
+        ],
+        "presets": [
+           {
+            "name": "Blogss"
+           }
+        ]
+}
+{% endschema %}

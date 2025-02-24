@@ -1,5 +1,28 @@
 <div class="homepage">
   <img src="{{ 'weeklyhow-logo.png' | asset_img_url: 'large' }}" class="logo">
-  <h1>Welcome to Shopify Theme Development course!</h1>
-  <p>{% render 'homepage-text' %}</p>
+  <h1>{{ section.settings.main_heading }}</h1>
+  <p class="text-7xl">{% render 'homepage-text' %}</p>
+
 </div>
+
+
+
+
+{% schema %}
+{
+  "name": "Home Page",
+  "settings": [
+      {
+        "type": "text",
+        "label" : "Enter the main heading",
+        "default" : "Welcome to Shopify Theme Development course!",
+        "id": "main_heading"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Home Page"
+      }
+    ]
+}
+{% endschema %}

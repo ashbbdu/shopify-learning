@@ -1,0 +1,138 @@
+<div class="min-h-screen bg-gray-100 flex items-center justify-center py-8 px-4">
+  <div class="max-w-4xl w-full bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="p-6">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'article_title' %}
+            <div class="text-3xl font-extrabold text-gray-800 mb-4">
+              {{ article.title }}
+            </div>
+          {% when 'article_author' %}
+            {% if section.settings.show_author %}
+              <div class="text-sm text-gray-500 mb-2">
+                By <span class="font-medium text-gray-700">{{ article.author }}</span>
+              </div>
+            {% endif %}
+          {% when 'article_published_date' %}
+            {% if section.settings.show_published_date %}
+              <div class="text-sm text-gray-500 mb-4">
+                Published on 
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" class="font-medium text-gray-700">
+                  {{ article.published_at | date: '%B %d, %Y' }}
+                </time>
+              </div>
+            {% endif %}
+          {% when 'article_image' %}
+            <div class="mb-6">
+              <img class="w-full h-auto rounded" src="{{ article.image | img_url: 'medium' }}" alt="{{ article.title }}" height="100" width="100">
+            </div>
+          {% when 'article_content' %}
+            <div class="prose prose-lg text-gray-700">
+              <p>{{ article.content }}</p>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% if article.comments_enabled? %}
+    {% if article.comments_count > 0 %}
+        <div>
+          {% for comment in article.comments %}
+            <div class="p-4 border-b border-gray-200">
+              <p class="font-bold">{{ comment.author }}</p>
+              <p class="text-sm">{{ comment.email }}</p>
+              <p>{{ comment.content }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div>There are no comments</div>
+      {% endif %}
+    <div id="comment_form">
+
+         {% form 'new_comment', article %}
+        <div class="max-w-xl mx-auto p-6 bg-white shadow-md rounded my-8">
+          <h2 class="text-2xl font-bold mb-4">Leave a Comment</h2>
+          
+          <input type="hidden" name="form_type" value="blog_comment">
+          <input type="hidden" name="utf8" value="✓">
+          <input type="hidden" name="article_id" value="{{ article.id }}">
+          
+          <div>
+            <label for="comment_author" class="block text-sm font-medium text-gray-700">Name</label>
+            <input type="text" id="comment_author" name="comment[author]" 
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                   required>
+          </div>
+          
+          <div>
+            <label for="comment_email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="comment_email" name="comment[email]" 
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                   required>
+          </div>
+          
+          <div>
+            <label for="comment_body" class="block text-sm font-medium text-gray-700">Comment</label>
+            <textarea id="comment_body" name="comment[body]" rows="4" 
+                      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" 
+                      required></textarea>
+          </div>
+          
+          <button type="submit" 
+                  class="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150 ease-in-out">
+            Submit Comment
+          </button>
+        </div>
+      {% endform %}
+      
+    </div>
+{% endif %}
+
+
+  {% schema %}
+    {
+      "name": "Template Article",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "label": "Display auhtor name",
+          "default": true
+        }, {
+          "type": "checkbox",
+          "id": "show_published_date",
+          "label": "Display Published Date",
+          "default": true
+        }
+      ],
+      "blocks": [
+        {
+          "type": "article_title",
+          "name": "Title",
+          "limit": 1
+        },
+        {
+          "type": "article_author",
+          "name": "Article Author",
+          "limit": 1
+        },
+        {
+          "type": "article_published_date",
+          "name": "Article Published Date",
+          "limit": 1
+        },
+        {
+          "type": "article_image",
+          "name": "Article Image",
+          "limit": 1
+        }, {
+          "type": "article_content",
+          "name": "Article Content",
+          "limit": 1
+        }
+      ]
+    }
+  {% endschema %}
+

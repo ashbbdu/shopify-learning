@@ -1,0 +1,29 @@
+{
+    "name" : "Article Template",
+    "layout": "theme",
+    "sections" : {
+        "template-article" : {
+            "type" : "template-article",
+            "blocks": {
+               "title" : {
+                 "type" : "article_title"
+               },
+                "author": {
+                "type": "article_author"
+              },
+              "published_date": {
+                "type": "article_published_date"
+              },
+              "article_image" : {
+                "type": "article_image"
+              },
+              "content": {
+                "type": "article_content"
+              }
+            },
+            "block_order": ["title" , "author", "published_date", "article_image", "content"]
+            },
+
+    },
+    "order": ["template-article"]
+}
